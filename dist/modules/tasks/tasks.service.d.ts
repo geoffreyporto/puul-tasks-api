@@ -1,0 +1,40 @@
+import { Repository } from 'typeorm';
+import { Task } from './entities/task.entity';
+import { TaskAssignment } from './entities/task-assignment.entity';
+import { User } from '../users/entities/user.entity';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
+import { TaskFiltersDto } from './dto/task-filters.dto';
+import { TaskResponseDto } from './dto/task-response.dto';
+import { CreateAssignmentDto } from './dto/create-assignment.dto';
+import { PaginatedResult } from '../../common/interfaces/paginated-result.interface';
+import { UsersService } from '../users/users.service';
+export declare class TasksService {
+    private readonly taskRepository;
+    private readonly taskAssignmentRepository;
+    private readonly userRepository;
+    private readonly usersService;
+    constructor(taskRepository: Repository<Task>, taskAssignmentRepository: Repository<TaskAssignment>, userRepository: Repository<User>, usersService: UsersService);
+    create(createTaskDto: CreateTaskDto, createdBy: string): Promise<TaskResponseDto>;
+    findAll(filters: TaskFiltersDto, userId?: string): Promise<PaginatedResult<TaskResponseDto>>;
+    findOne(id: string): Promise<TaskResponseDto>;
+    update(id: string, updateTaskDto: UpdateTaskDto, updatedBy: string): Promise<TaskResponseDto>;
+    remove(id: string): Promise<void>;
+    assignTaskToUser(createAssignmentDto: CreateAssignmentDto, createdBy: string): Promise<TaskAssignment>;
+    unassignUser(taskId: string, userId: string): Promise<void>;
+    getTaskStatusDistribution(startDate?: string, endDate?: string): Promise<{
+        not_started: number;
+        in_progress: number;
+        completed: number;
+    }>;
+    getAnalytics(teamId?: string): Promise<any>;
+    private findTaskById;
+    private createTaskQueryBuilder;
+    private applyTaskFilters;
+    private applySorting;
+    private mapTaskToResponseDto;
+    private assignUsersToTask;
+    private reassignTaskUsers;
+    private calculateProductivityScore;
+    private isValidUUID;
+}
