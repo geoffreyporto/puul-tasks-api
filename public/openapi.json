@@ -1,0 +1,1388 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/api/v1/users": {
+      "post": {
+        "operationId": "UsersController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "409": {
+            "description": "User already exists"
+          }
+        },
+        "summary": "Create a new user",
+        "tags": [
+          "Users"
+        ]
+      },
+      "get": {
+        "operationId": "UsersController_findAll",
+        "parameters": [
+          {
+            "name": "name",
+            "required": false,
+            "in": "query",
+            "description": "Filter by name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "required": false,
+            "in": "query",
+            "description": "Filter by email",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "role",
+            "required": false,
+            "in": "query",
+            "description": "Filter by role",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "admin",
+                "manager",
+                "member",
+                "client"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "$ref": "#/components/schemas/Object"
+            }
+          },
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "$ref": "#/components/schemas/Object"
+            }
+          },
+          {
+            "description": "Filter by name",
+            "required": false,
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter by email",
+            "required": false,
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter by role",
+            "required": false,
+            "name": "role",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Page number",
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "default": 1,
+              "example": 1,
+              "type": "object"
+            }
+          },
+          {
+            "description": "Items per page",
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "default": 10,
+              "example": 10,
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Users retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserWithStatsDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get all users with filtering",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/api/v1/users/{id}": {
+      "get": {
+        "operationId": "UsersController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "summary": "Get user by ID",
+        "tags": [
+          "Users"
+        ]
+      },
+      "put": {
+        "operationId": "UsersController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "summary": "Update user",
+        "tags": [
+          "Users"
+        ]
+      },
+      "delete": {
+        "operationId": "UsersController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User deleted successfully"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "summary": "Delete user",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/api/v1/tasks": {
+      "post": {
+        "operationId": "TasksController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Task created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        },
+        "summary": "Create a new task",
+        "tags": [
+          "Tasks"
+        ]
+      },
+      "get": {
+        "operationId": "TasksController_findAll",
+        "parameters": [
+          {
+            "name": "title",
+            "required": false,
+            "in": "query",
+            "description": "Filter tasks by title (partial match)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "Filter tasks by status",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "active",
+                "pending",
+                "completed",
+                "archived"
+              ]
+            }
+          },
+          {
+            "name": "priority",
+            "required": false,
+            "in": "query",
+            "description": "Filter tasks by priority",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "urgent"
+              ]
+            }
+          },
+          {
+            "name": "assignedUserId",
+            "required": false,
+            "in": "query",
+            "description": "Filter tasks assigned to a specific user",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoryId",
+            "required": false,
+            "in": "query",
+            "description": "Filter tasks by category",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "teamId",
+            "required": false,
+            "in": "query",
+            "description": "Filter tasks by team",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dueDate",
+            "required": false,
+            "in": "query",
+            "description": "Due date filter (tasks due before this date)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "assignedUser",
+            "required": false,
+            "in": "query",
+            "description": "Search by assigned user name or email",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "description": "Sort direction and field, e.g. \"created_at:desc\"",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "default": 10,
+              "type": "number"
+            }
+          },
+          {
+            "description": "Filter tasks by title (partial match)",
+            "required": false,
+            "name": "title",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter tasks by status",
+            "required": false,
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter tasks by priority",
+            "required": false,
+            "name": "priority",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter tasks assigned to a specific user",
+            "required": false,
+            "name": "assignedUserId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter tasks by category",
+            "required": false,
+            "name": "categoryId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter tasks by team",
+            "required": false,
+            "name": "teamId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Due date filter (tasks due before this date)",
+            "required": false,
+            "name": "dueDate",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Search by assigned user name or email",
+            "required": false,
+            "name": "assignedUser",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Sort direction and field, e.g. \"created_at:desc\"",
+            "required": false,
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Page number",
+            "required": false,
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "Number of items per page",
+            "required": false,
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "default": 10,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tasks retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get all tasks with filtering",
+        "tags": [
+          "Tasks"
+        ]
+      }
+    },
+    "/api/v1/tasks/{id}": {
+      "get": {
+        "operationId": "TasksController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Task ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Task not found"
+          }
+        },
+        "summary": "Get task by ID",
+        "tags": [
+          "Tasks"
+        ]
+      },
+      "put": {
+        "operationId": "TasksController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Task ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Task updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Task not found"
+          }
+        },
+        "summary": "Update task",
+        "tags": [
+          "Tasks"
+        ]
+      },
+      "delete": {
+        "operationId": "TasksController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Task ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Task deleted successfully"
+          },
+          "404": {
+            "description": "Task not found"
+          }
+        },
+        "summary": "Delete task",
+        "tags": [
+          "Tasks"
+        ]
+      }
+    },
+    "/api/v1/tasks/{id}/assignments": {
+      "post": {
+        "operationId": "TasksController_assignTaskToUser",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Task ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAssignmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Task assigned successfully"
+          },
+          "404": {
+            "description": "Task or user not found"
+          }
+        },
+        "summary": "Assign task to users",
+        "tags": [
+          "Tasks"
+        ]
+      }
+    },
+    "/api/v1/tasks/{projectId}/analytics/tasks/status-distribution": {
+      "get": {
+        "operationId": "TasksController_getTaskStatusDistribution",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "description": "Project/Team ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "required": false,
+            "in": "query",
+            "description": "Start date filter in YYYY-MM-DD format",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end_date",
+            "required": false,
+            "in": "query",
+            "description": "End date filter in YYYY-MM-DD format",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Start date filter in YYYY-MM-DD format",
+            "required": false,
+            "name": "start_date",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "End date filter in YYYY-MM-DD format",
+            "required": false,
+            "name": "end_date",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task status distribution retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStatusDistributionResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get task status distribution by project",
+        "tags": [
+          "Tasks"
+        ]
+      }
+    },
+    "/api/v1/analytics/tasks/status-distribution": {
+      "get": {
+        "operationId": "TaskAnalyticsController_getTaskStatusDistribution",
+        "parameters": [
+          {
+            "name": "start_date",
+            "required": false,
+            "in": "query",
+            "description": "Start date filter in YYYY-MM-DD format",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end_date",
+            "required": false,
+            "in": "query",
+            "description": "End date filter in YYYY-MM-DD format",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Start date filter in YYYY-MM-DD format",
+            "required": false,
+            "name": "start_date",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "End date filter in YYYY-MM-DD format",
+            "required": false,
+            "name": "end_date",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task status distribution retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStatusDistributionResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get task status distribution across the system",
+        "tags": [
+          "Task Analytics"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Puul Tasks API",
+    "description": "API para gestión de tareas y usuarios",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Juan Pérez"
+          },
+          "email": {
+            "type": "string",
+            "example": "juan.perez@puul.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "securePassword123"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "admin",
+              "manager",
+              "member",
+              "client"
+            ],
+            "example": "member"
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "role"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier"
+          },
+          "email": {
+            "type": "string",
+            "description": "User email address"
+          },
+          "name": {
+            "type": "string",
+            "description": "User full name"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "admin",
+              "manager",
+              "member",
+              "client"
+            ],
+            "description": "User role in the system"
+          },
+          "avatar_url": {
+            "type": "string",
+            "description": "User avatar URL"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User phone number"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "User timezone"
+          },
+          "is_active": {
+            "type": "boolean",
+            "description": "Whether user is active"
+          },
+          "last_login_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last login timestamp"
+          },
+          "email_verified_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Email verification timestamp"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Creation timestamp"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last update timestamp"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "name",
+          "role",
+          "timezone",
+          "is_active",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "Object": {
+        "type": "object",
+        "properties": {}
+      },
+      "UserWithStatsDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Full name"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address"
+          },
+          "role": {
+            "type": "string",
+            "description": "User role"
+          },
+          "avatar_url": {
+            "type": "string",
+            "description": "URL to user avatar"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone number"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "User timezone"
+          },
+          "is_active": {
+            "type": "boolean",
+            "description": "Active status"
+          },
+          "last_login_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last login timestamp"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Created timestamp"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Updated timestamp"
+          },
+          "completed_tasks": {
+            "type": "number",
+            "description": "Number of completed tasks"
+          },
+          "active_tasks": {
+            "type": "number",
+            "description": "Number of active tasks"
+          },
+          "overdue_tasks": {
+            "type": "number",
+            "description": "Number of overdue tasks"
+          },
+          "total_completed_value": {
+            "type": "number",
+            "description": "Total value of completed tasks"
+          },
+          "total_assignments": {
+            "type": "number",
+            "description": "Total task assignments"
+          },
+          "productivity_score": {
+            "type": "number",
+            "description": "Productivity score"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "email",
+          "role",
+          "is_active",
+          "created_at",
+          "completed_tasks",
+          "active_tasks",
+          "overdue_tasks",
+          "total_completed_value",
+          "total_assignments",
+          "productivity_score"
+        ]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Juan Pérez"
+          },
+          "email": {
+            "type": "string",
+            "example": "juan.perez@puul.com"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "admin",
+              "manager",
+              "member",
+              "client"
+            ],
+            "example": "member"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "example": "https://example.com/avatar.jpg"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+52 1 555 123 4567"
+          },
+          "timezone": {
+            "type": "string",
+            "example": "America/Mexico_City"
+          },
+          "isActive": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "CreateTaskDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Implementar API de usuarios"
+          },
+          "description": {
+            "type": "string",
+            "example": "Desarrollar endpoints CRUD para gestión de usuarios"
+          },
+          "estimatedHours": {
+            "type": "number",
+            "example": 8.5
+          },
+          "cost": {
+            "type": "number",
+            "example": 1500
+          },
+          "dueDate": {
+            "type": "string",
+            "example": "2025-07-15T23:59:59.000Z"
+          },
+          "assignedUserIds": {
+            "example": [
+              "uuid-user-1",
+              "uuid-user-2"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "estimatedHours",
+          "cost",
+          "dueDate",
+          "assignedUserIds"
+        ]
+      },
+      "TaskResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Task unique identifier"
+          },
+          "title": {
+            "type": "string",
+            "description": "Task title"
+          },
+          "description": {
+            "type": "string",
+            "description": "Task description"
+          },
+          "status": {
+            "type": "string",
+            "example": "active",
+            "description": "Current status of the task"
+          },
+          "priority": {
+            "type": "number",
+            "example": 1,
+            "description": "Task priority level"
+          },
+          "dueDate": {
+            "type": "string",
+            "description": "Due date for the task"
+          },
+          "cost": {
+            "type": "number",
+            "example": 100,
+            "description": "Task cost or value"
+          },
+          "estimated_hours": {
+            "type": "number",
+            "example": 8,
+            "description": "Estimated hours to complete"
+          },
+          "actual_hours": {
+            "type": "number",
+            "example": 10,
+            "description": "Actual hours spent"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "Date when the task was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "Date when the task was last updated"
+          },
+          "completedAt": {
+            "type": "string",
+            "description": "Date when the task was completed"
+          },
+          "categoryId": {
+            "type": "string",
+            "description": "ID of the assigned category"
+          },
+          "category": {
+            "type": "object",
+            "description": "Category information"
+          },
+          "parent_task_id": {
+            "type": "string",
+            "description": "ID of parent task, if this is a subtask"
+          },
+          "started_at": {
+            "type": "string",
+            "description": "Date when the task was started"
+          },
+          "completed_at": {
+            "type": "string",
+            "description": "Date when the task was completed"
+          },
+          "created_by_name": {
+            "type": "string",
+            "description": "Name of the user who created the task"
+          },
+          "assignedUserIds": {
+            "description": "Array of assigned user IDs",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "assignees": {
+            "description": "Array of assigned user objects",
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "teamId": {
+            "type": "string",
+            "description": "ID of the team this task belongs to"
+          },
+          "teamName": {
+            "type": "string",
+            "description": "Name of the team this task belongs to"
+          },
+          "team": {
+            "type": "object",
+            "description": "Team information"
+          },
+          "is_overdue": {
+            "type": "boolean",
+            "description": "Whether the task is overdue",
+            "default": false
+          },
+          "is_due_soon": {
+            "type": "boolean",
+            "description": "Whether the task is due soon (within 3 days)",
+            "default": false
+          },
+          "comments_count": {
+            "type": "number",
+            "description": "Number of comments on the task",
+            "default": 0
+          },
+          "attachments_count": {
+            "type": "number",
+            "description": "Number of attachments on the task",
+            "default": 0
+          },
+          "assignee_count": {
+            "type": "number",
+            "description": "Number of assignees on the task",
+            "default": 0
+          },
+          "completion_percentage": {
+            "type": "number",
+            "description": "Percentage of completion",
+            "default": 0
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "description",
+          "status",
+          "priority",
+          "dueDate",
+          "cost",
+          "estimated_hours",
+          "actual_hours",
+          "created_at",
+          "updated_at",
+          "is_overdue",
+          "is_due_soon",
+          "comments_count",
+          "attachments_count",
+          "assignee_count",
+          "completion_percentage"
+        ]
+      },
+      "UpdateTaskDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task title"
+          },
+          "description": {
+            "type": "string",
+            "description": "Task description"
+          },
+          "status": {
+            "type": "string",
+            "description": "Task status",
+            "enum": [
+              "active",
+              "pending",
+              "completed",
+              "archived"
+            ]
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task priority",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "urgent"
+            ]
+          },
+          "dueDate": {
+            "type": "string",
+            "description": "Task due date (ISO format)"
+          },
+          "completedAt": {
+            "type": "string",
+            "description": "Date when task was completed (ISO format)"
+          },
+          "cost": {
+            "type": "number",
+            "description": "Task cost/value"
+          },
+          "assignedUserIds": {
+            "description": "IDs of users assigned to the task",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "categoryId": {
+            "type": "string",
+            "description": "Task category ID"
+          },
+          "teamId": {
+            "type": "string",
+            "description": "Team ID"
+          }
+        }
+      },
+      "CreateAssignmentDto": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string",
+            "description": "ID of the task to assign the user to"
+          },
+          "userId": {
+            "type": "string",
+            "description": "ID of the user to assign to the task"
+          },
+          "assignedBy": {
+            "type": "string",
+            "description": "ID of the user who is making the assignment"
+          }
+        },
+        "required": [
+          "taskId",
+          "userId",
+          "assignedBy"
+        ]
+      },
+      "TaskStatusDistributionResponseDto": {
+        "type": "object",
+        "properties": {
+          "not_started": {
+            "type": "number",
+            "description": "Number of tasks not started yet"
+          },
+          "in_progress": {
+            "type": "number",
+            "description": "Number of tasks in progress"
+          },
+          "completed": {
+            "type": "number",
+            "description": "Number of tasks completed"
+          }
+        },
+        "required": [
+          "not_started",
+          "in_progress",
+          "completed"
+        ]
+      }
+    }
+  }
+}
