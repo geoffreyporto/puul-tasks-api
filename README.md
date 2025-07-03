@@ -1058,6 +1058,27 @@ Con estos cinco pasos tendrás la base del proyecto alineada al challenge y a lo
 
 **Delpoyment**
 
+For deploy on vercel.com, create a local development environment: vercel.json
+add the below content:
+```json
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "src/main.ts",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "src/main.ts",
+        "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
+      }
+    ]
+  }
+```
+
 ```bash
 npm run start:dev
 
